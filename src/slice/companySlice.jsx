@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 import axios from "axios";
-import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: apiURL,

@@ -12,9 +12,6 @@ export const getStudentData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     const token = sessionStorage.getItem("userToken");
     console.log("token", token);
-  async (_, { rejectWithValue }) => {
-    const token = sessionStorage.getItem("userToken");
-    console.log("token", token);
     try {
       const res = await axiosInstance.get("api/student", {
         headers: {
@@ -29,7 +26,7 @@ export const getStudentData = createAsyncThunk(
         error.response ? error.response.data : { message: error.message }
       );
     }
-  }}
+  }
 );
 
 export const addStudentData = createAsyncThunk(
