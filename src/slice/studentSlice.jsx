@@ -4,7 +4,7 @@ import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
 const token = sessionStorage.getItem("userToken");
-console.log(token);
+// console.log(token);
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
@@ -73,12 +73,7 @@ const studentSlice = createSlice({
         state.isLoading = false;
         state.success = action.payload.data.status;
         state.message = action.payload.data.message;
-        console.log(state.message);
-        // addNotification({
-        //   title: "Success",
-        //   message: action.payload.data.message,
-        //   native: true,
-        // });
+        // console.log(state.message);
       })
       .addCase(getStudentData.rejected, (state, action) => {
         console.log("get student Rejected payload", action.payload);
@@ -104,7 +99,7 @@ const studentSlice = createSlice({
         state.message = "";
       })
       .addCase(addStudentData.fulfilled, (state, action) => {
-        console.log("add student fulfilled", action.payload);
+        // console.log("add student fulfilled", action.payload);
         state.isLoading = false;
         state.success = action.payload.data.status;
         state.message = action.payload.data.message;
@@ -116,7 +111,7 @@ const studentSlice = createSlice({
         });
       })
       .addCase(addStudentData.rejected, (state, action) => {
-        console.log("add student Rejected payload", action.payload);
+        // console.log("add student Rejected payload", action.payload);
         state.isLoading = false;
         state.success = action.payload.status;
         state.message = action.payload
