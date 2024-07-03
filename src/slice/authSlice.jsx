@@ -7,6 +7,9 @@ const axiosInstance = axios.create({
   baseURL: apiURL
 })
 
+// Function to retrieve token and status from sessionStorage
+// const getUserToken = () => sessionStorage.getItem("userToken") || null;
+// const getStatus = () => sessionStorage.getItem("status") || null;
 
 export const createSignUp = createAsyncThunk(
   "api/signup",
@@ -111,6 +114,9 @@ const authSlice = createSlice({
         // state.token = action.payload.data.data.token
         sessionStorage.setItem("userToken", action.payload.data.data.token);
         sessionStorage.setItem("status", action.payload.data.data.status);
+         // Update state with new token and status
+  state.token = action.payload.data.data.token;
+  state.status = action.payload.data.data.status;
         console.log("token...........", state.token);
         console.log("status.........", state.status);
         console.log(token);
