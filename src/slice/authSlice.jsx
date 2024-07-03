@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
+import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
   baseURL: apiURL
@@ -74,13 +74,10 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.success = action.payload.data.status;
         state.message = action.payload.data.message;
-        addNotification({
-          title: "Success",
-          message: state.message,
-          theme: "green",
-          duration: 3000,
-          native: true,
-        });
+        toast.success(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       .addCase(createSignUp.rejected, (state, action) => {
         console.log("rejected payload signup", action.payload);
@@ -89,15 +86,10 @@ const authSlice = createSlice({
         state.message = action.payload
           ? action.payload.message
           : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: action.payload
-            ? action.payload.message
-            : "Unknown error occurred",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.error(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       // Login add case function
       .addCase(loginUser.pending, (state, action) => {
@@ -114,19 +106,16 @@ const authSlice = createSlice({
         // state.token = action.payload.data.data.token
         sessionStorage.setItem("userToken", action.payload.data.data.token);
         sessionStorage.setItem("status", action.payload.data.data.status);
-         // Update state with new token and status
-  state.token = action.payload.data.data.token;
-  state.status = action.payload.data.data.status;
+        // Update state with new token and status
+        state.token = action.payload.data.data.token;
+        state.status = action.payload.data.data.status;
         console.log("token...........", state.token);
         console.log("status.........", state.status);
         console.log(token);
-        addNotification({
-          title: "Success",
-          message: action.payload.data.data.message,
-          theme: "green",
-          duration: 3000,
-          native: true,
-        });
+        toast.success(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       .addCase(loginUser.rejected, (state, action) => {
         console.log("Login Rejected payload", action.payload);
@@ -135,20 +124,15 @@ const authSlice = createSlice({
         state.message = action.payload
           ? action.payload.message
           : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: action.payload
-            ? action.payload.message
-            : "Unknown error occurred",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.error(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
       });
   },
 });
 
 // exporting auth action
-export const { token } =  authSlice.actions;
+export const { token } = authSlice.actions;
 // exporting the authslice reducer to the store
 export default authSlice.reducer;

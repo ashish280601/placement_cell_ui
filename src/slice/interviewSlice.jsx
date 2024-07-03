@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import addNotification from "react-push-notification";
+import { toast } from "react-toastify";
 import apiURL from "../../configApi";
 
 const axiosInstance = axios.create({
@@ -58,10 +58,9 @@ const interviewSlice = createSlice({
         state.success = action.payload.data.data.status;
         state.message = action.payload.data.data.message;
         console.log(state.message);
-        addNotification({
-          title: "Success",
-          message: state.message,
-          native: true
+        toast.success(state.message,{
+          autoClose: 3000,
+          position: "top-right"
         })
       })
       .addCase(allocateInterview.rejected, (state, action) => {
@@ -71,15 +70,10 @@ const interviewSlice = createSlice({
         state.message = action.payload
           ? action.payload.data.message
           : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: action.payload
-            ? action.payload.data.message
-            : "Unknown error occurred",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+          toast.error(state.message,{
+            autoClose: 3000,
+            position: "top-right"
+          })
       });
   },
 });

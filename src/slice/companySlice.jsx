@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
@@ -88,15 +88,10 @@ const companySlice = createSlice({
         state.message = action.payload
           ? action.payload.message
           : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: action.payload
-            ? action.payload.message
-            : "Unknown error occurred",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.error(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
         return;
       })
       // case to add company
@@ -111,11 +106,10 @@ const companySlice = createSlice({
         state.success = action.payload.data.status;
         state.message = action.payload.data.message;
         console.log(state.message);
-        addNotification({
-          title: "Success",
-          message: action.payload.data.message,
-          native: true,
-        });
+        toast.success(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       .addCase(addCompanyData.rejected, (state, action) => {
         console.log("add company Rejected payload", action.payload);
@@ -124,15 +118,10 @@ const companySlice = createSlice({
         state.message = action.payload
           ? action.payload.message
           : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: action.payload
-            ? action.payload.message
-            : "Unknown error occurred",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.error(state.message, {
+          autoClose: 3000,
+          position: "top-right"
+        })
         return;
       });
   },

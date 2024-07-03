@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import addNotification from "react-push-notification";
+import { toast } from "react-toastify";
 import apiURL from "../../configApi";
 
 const axiosInstance = axios.create({
@@ -80,13 +80,10 @@ const studentSlice = createSlice({
         state.isLoading = false;
         state.success = false;
         state.message = action.payload.data.message || "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: state.message,
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.success(state.message,{
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       .addCase(addStudentData.pending, (state) => {
         state.isLoading = true;
@@ -98,24 +95,20 @@ const studentSlice = createSlice({
         state.isLoading = false;
         state.success = true;
         state.message = action.payload.data.message;
-        addNotification({
-          title: "Success",
-          message: state.message,
-          native: true,
-        });
+        toast.success(state.message,{
+          autoClose: 3000,
+          position: "top-right"
+        })
       })
       .addCase(addStudentData.rejected, (state, action) => {
         console.log("add student rejected payload", action.payload);
         state.isLoading = false;
         state.success = false;
         state.message = action.payload ? action.payload.data.message : "Unknown error occurred";
-        addNotification({
-          title: "Error",
-          message: state.message,
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
+        toast.error(state.message,{
+          autoClose: 3000,
+          position: "top-right"
+        })
       });
   },
 });

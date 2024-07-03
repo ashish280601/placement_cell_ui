@@ -5,6 +5,7 @@ import { getStudentData } from "../../slice/studentSlice";
 import { allocateInterview } from "../../slice/interviewSlice";
 import addNotification from "react-push-notification";
 import { addInterviewResults } from "../../slice/interviewResultsSlice";
+import { toast } from "react-toastify";
 
 function Interview() {
   const [inputData, setInputData] = useState(null);
@@ -58,13 +59,6 @@ function Interview() {
     // write your code here.
     try {
       if (!inputData.company || selectedStudentId.length === 0) {
-        addNotification({
-          title: "Warning",
-          message: "Company or students not selected",
-          theme: "red",
-          duration: 3000,
-          native: true,
-        });
         return;
       }
       // write your code logic here.
@@ -90,33 +84,24 @@ function Interview() {
     // write your code here
     try {
       if (!selectCompanyId) {
-        addNotification({
-          title: "Warning",
-          message: "Please select company",
-          theme: "red",
+        toast.warning("Please select company",{
           duration: 3000,
-          native: true,
-        });
+          position: "top-right"
+        })
         console.error("Missing required fields");
         return;
       } else if (!selectResultId) {
-        addNotification({
-          title: "Warning",
-          message: "Please select student",
-          theme: "red",
+        toast.warning("Please select student",{
           duration: 3000,
-          native: true,
-        });
+          position: "top-right"
+        })
         console.error("Missing required fields");
         return;
       } else if(!inputData.result) {
-        addNotification({
-          title: "Warning",
-          message: "Please select result",
-          theme: "red",
+        toast.warning("Please select results",{
           duration: 3000,
-          native: true,
-        });
+          position: "top-right"
+        })
         console.error("Missing required fields");
         return;
       }
