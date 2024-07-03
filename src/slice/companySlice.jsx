@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 import axios from "axios";
+import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
@@ -13,7 +14,7 @@ export const getCompanyData = createAsyncThunk(
     const token = sessionStorage.getItem("userToken");
     console.log("token", token);
     try {
-      const res = await axiosInstance.get("api/interview",{
+      const res = await axiosInstance.get("api/interview", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -37,7 +38,7 @@ export const addCompanyData = createAsyncThunk(
     console.log("token", token);
     console.log(token);
     try {
-      const res = await axiosInstance.post("api/interview/add", payload,{
+      const res = await axiosInstance.post("api/interview/add", payload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

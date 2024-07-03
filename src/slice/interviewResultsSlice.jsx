@@ -3,10 +3,6 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-function getToken(){
-  return sessionStorage.getItem("userToken");
-}
-
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });

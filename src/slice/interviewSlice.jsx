@@ -16,12 +16,12 @@ export const allocateInterview = createAsyncThunk(
     try {
       const res = await axiosInstance.post(
         `api/interview/allocate-interview/${payload.companyId}`,
-        { studentsId: payload.studentsId },{
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { studentsId: payload.studentsId }, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
       );
       console.log("sing up response:", res);
       return res;
