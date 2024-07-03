@@ -25,9 +25,9 @@ function SignIn() {
     try {
       const res = await dispatch(loginUser(login));
       console.log("login response component", res);
-      if (res.payload.data.data.status === true) {
+      if (res?.payload?.data?.data?.status === true) {
         setLogin({});
-        navigate("/dashboard/student");
+        navigate("/student");
         return;
       } else {
         setLogin({});
