@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { getCompanyData } from "../../slice/companySlice";
 import { getStudentData } from "../../slice/studentSlice";
 import { allocateInterview } from "../../slice/interviewSlice";
+import addNotification from "react-push-notification";
+import { addInterviewResults } from "../../slice/interviewResultsSlice";
 
 function Interview() {
   const [inputData, setInputData] = useState(null);
@@ -12,6 +14,9 @@ function Interview() {
   });
   // state to stor the id of an selected student row
   const [selectedStudentId, setSelectedStudentId] = useState([]);
+  const [selectResultId, setSelectResultId] = useState(null);
+  const [selectCompanyId, setSelectCompanyId] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -52,6 +57,16 @@ function Interview() {
   const handleAllocateInterview = async () => {
     // write your code here.
     try {
+      if (!inputData.company || selectedStudentId.length === 0) {
+        addNotification({
+          title: "Warning",
+          message: "Company or students not selected",
+          theme: "red",
+          duration: 3000,
+          native: true,
+        });
+        return;
+      }
       // write your code logic here.
       const res = await dispatch(
         allocateInterview({
@@ -70,14 +85,69 @@ function Interview() {
     }
   };
 
-  console.log(getData?.studentData);
-  console.log(getData?.companyData);
+  const handleResultInterview = async () => {
+    // write your code here
+    try {
+      if (!selectCompanyId) {
+        addNotification({
+          title: "Warning",
+          message: "Please select company",
+          theme: "red",
+          duration: 3000,
+          native: true,
+        });
+        console.error("Missing required fields");
+        return;
+      } else if (!selectResultId) {
+        addNotification({
+          title: "Warning",
+          message: "Please select student",
+          theme: "red",
+          duration: 3000,
+          native: true,
+        });
+        console.error("Missing required fields");
+        return;
+      } else if(!inputData.result) {
+        addNotification({
+          title: "Warning",
+          message: "Please select result",
+          theme: "red",
+          duration: 3000,
+          native: true,
+        });
+        console.error("Missing required fields");
+        return;
+      }
+      // write your code logic here.
+      const res = await dispatch(
+        addInterviewResults({
+          id: selectCompanyId,
+          studentId: selectResultId,
+          result: inputData.result,
+        })
+      );
+      // console.log("res data from result interview component", res);
+      if (res?.payload?.data?.data?.status === true) {
+        setInputData({});
+        setSelectCompanyId(null);
+        setSelectResultId(null);
+        setSelectedStudentId([]);
+        return;
+      }
+    } catch (error) {
+      console.error("error while adding student data", error);
+    }
+  };
+
+  // console.log(getData?.studentData);
+  // console.log(getData?.companyData);
 
   useEffect(() => {
     fetchInterviewData();
     fetchStudentData();
   }, []);
-  console.log("selectedStudentId", selectedStudentId);
+  // console.log("selectedStudentId", selectedStudentId);
   return (
     <>
       <section className="studs_sec">
@@ -144,6 +214,7 @@ function Interview() {
                               ? prevSelected.filter((id) => id !== data._id)
                               : [...prevSelected, data._id]
                           );
+                          setSelectedStudent(data);
                         }}
                       >
                         <td>{data?.name || "-"}</td>
@@ -156,8 +227,19 @@ function Interview() {
 
                         <td>
                           <button
-                            data-toggle="modal"
-                            data-target="#exampleModalAddbox"
+                            onClick={() => {
+                              if (selectResultId === data._id) {
+                                setSelectResultId(null);
+                              } else {
+                                setSelectResultId(data._id);
+                              }
+                            }}
+                            data-toggle={selectResultId === null ? "" : "modal"}
+                            data-target={
+                              selectResultId === null
+                                ? ""
+                                : "#exampleModalAddbox"
+                            }
                           >
                             {" "}
                             <svg
@@ -177,10 +259,8 @@ function Interview() {
                             </svg>
                           </button>
                         </td>
-
                       </tr>
                     ))}
-
                   </tbody>
                 </table>
               </div>
@@ -188,7 +268,6 @@ function Interview() {
           </div>
         </div>
       </section>
-
       <div
         className="modal fade"
         id="exampleModalAddbox"
@@ -239,11 +318,53 @@ function Interview() {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-4">
-                      <div className="" style={{ marginTop: "25px" }}>
-                        <button onClick={handleAllocateInterview}>
-                          Add Results
-                        </button>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="table_box">
+                          <table className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Company</th>
+                                <th>Location</th>
+                                <th>Designation</th>
+                                <th>Mode</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {selectedStudent?.interviewDetails?.map(
+                                (interview, subID) => (
+                                  <tr
+                                    key={subID}
+                                    onClick={() => {
+                                      if (selectCompanyId === interview._id) {
+                                        setSelectCompanyId(null);
+                                      } else {
+                                        setSelectCompanyId(interview._id);
+                                      }
+                                    }}
+                                    style={{
+                                      backgroundColor:
+                                        selectCompanyId === interview._id
+                                          ? "lightblue"
+                                          : "white",
+                                    }}
+                                  >
+                                    <td>{interview?.company || "-"}</td>
+                                    <td>{interview?.location || "-"}</td>
+                                    <td>{interview?.designation || "-"}</td>
+                                    <td>{interview?.mode || "-"}</td>
+                                    <td>
+                                      {new Date(
+                                        interview?.date
+                                      ).toLocaleDateString() || "-"}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -258,8 +379,13 @@ function Interview() {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-dismiss="modal"
+                onClick={handleResultInterview}
+              >
+                Add Results
               </button>
             </div>
           </div>
