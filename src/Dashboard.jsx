@@ -83,7 +83,7 @@ function Dashboard() {
                           activeNavItem === "student" ? "active" : ""
                         }`}
                       >
-                        <Link className="nav-link" to={"student"}>
+                        <Link className="nav-link" to={"/student"}>
                           Student
                         </Link>
                       </li>
@@ -94,7 +94,7 @@ function Dashboard() {
                       >
                         <Link
                           className="nav-link"
-                          to="company"
+                          to="/company"
                           onClick={() => handleItemClick("company")}
                         >
                           Job Posting
@@ -108,7 +108,7 @@ function Dashboard() {
                       >
                         <Link
                           className="nav-link"
-                          to="interview"
+                          to="/interview"
                           onClick={() => handleItemClick("interview")}
                         >
                           Schedule Interview
@@ -121,7 +121,7 @@ function Dashboard() {
                       >
                         <Link
                           className="nav-link"
-                          to="interviewResult"
+                          to="/interviewResult"
                           onClick={() => handleItemClick("interviewResult")}
                         >
                           Interview Result

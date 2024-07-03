@@ -17,7 +17,7 @@ const RouteConfig = () => {
     <Routes>
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
-      <Route path="/dashboard" element={isAuth ?  <Dashboard /> : <Navigate to="/login" /> }>
+      <Route path="/" element={isAuth ?  <Dashboard /> : <Navigate to="/login" /> }>
         <Route path="student" element={<Students />} />
         <Route path="company" element={<Company />} />
         <Route path="interview" element={<Interview />} />
