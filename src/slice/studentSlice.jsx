@@ -31,7 +31,7 @@ export const getStudentData = createAsyncThunk(
     try {
       const res = await axiosInstance.get("api/student");
       console.log("student get data", res);
-      return res;
+      return res.data;
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : { message: error.message }
@@ -51,7 +51,7 @@ export const addStudentData = createAsyncThunk(
       return res;
     } catch (error) {
       return rejectWithValue(
-        error.response ? error.response.data : { message: error.message }
+        error.response ? error.response : { message: error.message }
       );
     }
   }
@@ -115,7 +115,7 @@ const studentSlice = createSlice({
         });
       })
       .addCase(addStudentData.rejected, (state, action) => {
-        // console.log("add student Rejected payload", action.payload);
+        console.log("add student Rejected payload", action.payload);
         state.isLoading = false;
         state.success = action.payload.status;
         state.message = action.payload
