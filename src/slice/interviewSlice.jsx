@@ -60,7 +60,7 @@ const interviewSlice = createSlice({
         console.log(state.message);
         toast.success(state.message,{
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(allocateInterview.rejected, (state, action) => {
@@ -72,7 +72,7 @@ const interviewSlice = createSlice({
           : "Unknown error occurred";
           toast.error(state.message,{
             autoClose: 3000,
-            position: "top-right"
+            position: "bottom-right"
           })
       });
   },

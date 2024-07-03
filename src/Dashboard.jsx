@@ -2,7 +2,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import navlogo from "./assets/imges/log.png";
 import { useState } from "react";
-import addNotification from "react-push-notification";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const [closeOpen, setCloseOpen] = useState(true);
@@ -35,18 +35,16 @@ function Dashboard() {
     try {
 
       sessionStorage.clear();
-      addNotification({
-        title: "Success",
-        message: "Employee Log Out",
-        native: true
+      toast.success("Logout Successful", {
+        autoClose: 3000,
+        position: "bottom-right"
       })
       navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
-      addNotification({
-        title: "Error",
-        message: "Faile to log out",
-        native: true
+      toast.error("Failed to logout",{
+        position: "bottom-right",
+        autoClose: 3000
       })
     }
   };

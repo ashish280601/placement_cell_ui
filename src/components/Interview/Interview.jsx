@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { getCompanyData } from "../../slice/companySlice";
 import { getStudentData } from "../../slice/studentSlice";
 import { allocateInterview } from "../../slice/interviewSlice";
-import addNotification from "react-push-notification";
 import { addInterviewResults } from "../../slice/interviewResultsSlice";
 import { toast } from "react-toastify";
 
@@ -86,21 +85,21 @@ function Interview() {
       if (!selectCompanyId) {
         toast.warning("Please select company",{
           duration: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         console.error("Missing required fields");
         return;
       } else if (!selectResultId) {
         toast.warning("Please select student",{
           duration: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         console.error("Missing required fields");
         return;
       } else if(!inputData.result) {
         toast.warning("Please select results",{
           duration: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         console.error("Missing required fields");
         return;
@@ -130,7 +129,8 @@ function Interview() {
     fetchInterviewData();
     fetchStudentData();
   }, []);
-  // console.log("selectedStudentId", selectedStudentId);
+  console.log("selectedStudentId", selectedStudentId);
+  console.log("selectResultId", selectResultId);
   return (
     <>
       <section className="studs_sec">

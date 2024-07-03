@@ -85,7 +85,7 @@ const interviewResultsSlice = createSlice({
         console.log(state.message);
         toast.success(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         return;
       })
@@ -98,7 +98,7 @@ const interviewResultsSlice = createSlice({
           : "Unknown error occurred";
         toast.error(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         return;
       });

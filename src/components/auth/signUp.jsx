@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import addNotification from "react-push-notification";
 import { useDispatch } from "react-redux";
 import { createSignUp } from "../../slice/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import loginimg from "../../assets/imges/loginimg.png";
+import { toast } from "react-toastify";
 function SignUp() {
   const [SignUp, setSignUp] = useState({});
   const dispatch = useDispatch();
@@ -34,6 +34,10 @@ function SignUp() {
       }
     } catch (err) {
       console.error("Error during sign up:", err);
+      toast.error(err.message,{
+        position: "bottom-right",
+        autoClose: 3000
+      })
       addNotification({
         title: "Error",
         message: "Something went wrong",

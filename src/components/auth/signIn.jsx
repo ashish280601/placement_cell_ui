@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../slice/authSlice";
-import addNotification from "react-push-notification";
 import loginimg from "../../assets/imges/loginimg.png";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const [login, setLogin] = useState({});
@@ -35,11 +35,10 @@ function SignIn() {
       }
     } catch (error) {
       console.log(error);
-      addNotification({
-        title: "Error",
-        message: error.message,
-        native: true,
-      });
+      toast.error(error.message,{
+        position: "bottom-right",
+        autoClose: 3000,
+      })
     }
   };
 

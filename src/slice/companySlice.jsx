@@ -90,7 +90,7 @@ const companySlice = createSlice({
           : "Unknown error occurred";
         toast.error(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         return;
       })
@@ -108,7 +108,7 @@ const companySlice = createSlice({
         console.log(state.message);
         toast.success(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(addCompanyData.rejected, (state, action) => {
@@ -120,7 +120,7 @@ const companySlice = createSlice({
           : "Unknown error occurred";
         toast.error(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
         return;
       });

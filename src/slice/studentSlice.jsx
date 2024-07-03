@@ -82,7 +82,7 @@ const studentSlice = createSlice({
         state.message = action.payload.data.message || "Unknown error occurred";
         toast.success(state.message,{
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(addStudentData.pending, (state) => {
@@ -97,7 +97,7 @@ const studentSlice = createSlice({
         state.message = action.payload.data.message;
         toast.success(state.message,{
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(addStudentData.rejected, (state, action) => {
@@ -107,7 +107,7 @@ const studentSlice = createSlice({
         state.message = action.payload ? action.payload.data.message : "Unknown error occurred";
         toast.error(state.message,{
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       });
   },

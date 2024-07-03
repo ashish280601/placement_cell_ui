@@ -76,7 +76,7 @@ const authSlice = createSlice({
         state.message = action.payload.data.message;
         toast.success(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(createSignUp.rejected, (state, action) => {
@@ -88,7 +88,7 @@ const authSlice = createSlice({
           : "Unknown error occurred";
         toast.error(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       // Login add case function
@@ -114,7 +114,7 @@ const authSlice = createSlice({
         console.log(token);
         toast.success(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -126,7 +126,7 @@ const authSlice = createSlice({
           : "Unknown error occurred";
         toast.error(state.message, {
           autoClose: 3000,
-          position: "top-right"
+          position: "bottom-right"
         })
       });
   },
