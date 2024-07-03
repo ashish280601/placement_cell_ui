@@ -3,12 +3,27 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-const token = sessionStorage.getItem("userToken");
-// console.log(token);
+function getToken(){
+  return sessionStorage.getItem("userToken");
+}
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });
+
+// Axios interceptor to set token before each request
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const allocateInterview = createAsyncThunk(
   "interview/allocate",
@@ -18,13 +33,7 @@ export const allocateInterview = createAsyncThunk(
     try {
       const res = await axiosInstance.post(
         `api/interview/allocate-interview/${payload.companyId}`,
-        { studentsId: payload.studentsId },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { studentsId: payload.studentsId }
       );
       console.log("sing up response:", res);
       return res;

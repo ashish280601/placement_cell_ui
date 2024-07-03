@@ -3,23 +3,33 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-const token = sessionStorage.getItem("userToken");
-// console.log(token);
+function getToken(){
+  return sessionStorage.getItem("userToken");
+}
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });
 
+// Axios interceptor to set token before each request
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getStudentData = createAsyncThunk(
   "get/student",
   async ({ payload, rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get("api/student",{
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.get("api/student");
       console.log("student get data", res);
       return res;
     } catch (error) {
@@ -36,12 +46,7 @@ export const addStudentData = createAsyncThunk(
     console.log("payload", payload);
     console.log(token);
     try {
-      const res = await axiosInstance.post("api/student/add", payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.post("api/student/add", payload);
       console.log("student add slice data", res);
       return res;
     } catch (error) {
@@ -51,7 +56,6 @@ export const addStudentData = createAsyncThunk(
     }
   }
 );
-
 const studentSlice = createSlice({
   name: "student",
   initialState: {

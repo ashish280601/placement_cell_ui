@@ -3,23 +3,33 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-const token = sessionStorage.getItem("userToken");
-console.log(token);
+function getToken(){
+  return sessionStorage.getItem("userToken");
+}
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });
 
+// Axios interceptor to set token before each request
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const fetchInterviewResultSlice =  createAsyncThunk(
   "get/studentResults",
   async ({ payload, rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get("api/results/students/marks",{
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.get("api/results/students/marks");
       console.log("get student results data", res);
       return res;
     } catch (error) {
@@ -42,12 +52,6 @@ export const addInterviewResults = createAsyncThunk(
           {
             student: payload.studentId,
             result: payload.result,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
           }
         );
         console.log("interview results response:", res);
