@@ -78,6 +78,7 @@ function Interview() {
       if (res?.payload?.data?.data?.status === true) {
         setInputData(null);
         setSelectedStudentId([]);
+        fetchStudentData();
         return;
       }
     } catch (error) {
@@ -139,9 +140,6 @@ function Interview() {
       console.error("error while adding student data", error);
     }
   };
-
-  // console.log(getData?.studentData);
-  // console.log(getData?.companyData);
 
   useEffect(() => {
     fetchInterviewData();

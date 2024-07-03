@@ -3,8 +3,9 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-const token = sessionStorage.getItem("userToken");
-console.log(token);
+function getToken(){
+  return sessionStorage.getItem("userToken");
+}
 
 const axiosInstance = axios.create({
   baseURL: apiURL,
@@ -13,6 +14,7 @@ const axiosInstance = axios.create({
 export const fetchInterviewResultSlice =  createAsyncThunk(
   "get/studentResults",
   async ({ payload, rejectWithValue }) => {
+    const token = sessionStorage.getItem("userToken")
     try {
       const res = await axiosInstance.get("api/results/students/marks",{
         headers: {
@@ -36,14 +38,14 @@ export const addInterviewResults = createAsyncThunk(
       console.log("id", payload.id);
       console.log("studentId", payload.studentId);
       console.log("result", payload.result);
+      const token = sessionStorage.getItem("userToken")
       try {
         const res = await axiosInstance.post(
           `api/results/mark/${payload.id}`,
           {
             student: payload.studentId,
             result: payload.result,
-          },
-          {
+          },{
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,

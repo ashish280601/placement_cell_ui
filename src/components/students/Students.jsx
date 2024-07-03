@@ -48,7 +48,7 @@ function Students() {
     try {
       // write your code logic here.
       const res = await dispatch(addStudentData(inputData));
-      // console.log("res data from student component", res);
+      console.log("res data from student component", res);
       if (res.payload.data.status) {
         fetchStudentData();
         setinputData({});

@@ -3,9 +3,6 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
-const token = sessionStorage.getItem("userToken");
-// console.log(token);
-
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });
@@ -15,11 +12,11 @@ export const allocateInterview = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     // console.log(payload.id);
     // console.log(payload.studentsId);
+    const token = sessionStorage.getItem("userToken");
     try {
       const res = await axiosInstance.post(
         `api/interview/allocate-interview/${payload.companyId}`,
-        { studentsId: payload.studentsId },
-        {
+        { studentsId: payload.studentsId },{
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

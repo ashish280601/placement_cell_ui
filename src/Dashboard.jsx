@@ -1,12 +1,13 @@
 // Dashboard.js
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import navlogo from "./assets/imges/log.png";
 import { useState } from "react";
+import addNotification from "react-push-notification";
 
 function Dashboard() {
   const [closeOpen, setCloseOpen] = useState(true);
   const [activeNavItem, setActiveNavItem] = useState("Home"); // Initialize with the default active navigation item
-
+  const navigate = useNavigate();
   // const togglefun = () => {
   //   setCloseOpen(!closeOpen);
   // };
@@ -28,6 +29,26 @@ function Dashboard() {
     handleNavItemClick(itemName);
 
     togglefun(); // Close the menu when a menu item is clicked.
+  };
+
+  const handleSignOut = async () => {
+    try {
+
+      sessionStorage.clear();
+      addNotification({
+        title: "Success",
+        message: "Employee Log Out",
+        native: true
+      })
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+      addNotification({
+        title: "Error",
+        message: "Faile to log out",
+        native: true
+      })
+    }
   };
   return (
     <>
@@ -79,18 +100,16 @@ function Dashboard() {
                   >
                     <ul className="navbar-nav">
                       <li
-                        className={`nav-item list_nav ${
-                          activeNavItem === "student" ? "active" : ""
-                        }`}
+                        className={`nav-item list_nav ${activeNavItem === "student" ? "active" : ""
+                          }`}
                       >
                         <Link className="nav-link" to={"/student"}>
                           Student
                         </Link>
                       </li>
                       <li
-                        className={`nav-item list_nav ${
-                          activeNavItem === "company" ? "active" : ""
-                        }`}
+                        className={`nav-item list_nav ${activeNavItem === "company" ? "active" : ""
+                          }`}
                       >
                         <Link
                           className="nav-link"
@@ -102,9 +121,8 @@ function Dashboard() {
                       </li>
 
                       <li
-                        className={`nav-item list_nav ${
-                          activeNavItem === "interview" ? "active" : ""
-                        }`}
+                        className={`nav-item list_nav ${activeNavItem === "interview" ? "active" : ""
+                          }`}
                       >
                         <Link
                           className="nav-link"
@@ -115,9 +133,8 @@ function Dashboard() {
                         </Link>
                       </li>
                       <li
-                        className={`nav-item list_nav ${
-                          activeNavItem === "interviewResult" ? "active" : ""
-                        }`}
+                        className={`nav-item list_nav ${activeNavItem === "interviewResult" ? "active" : ""
+                          }`}
                       >
                         <Link
                           className="nav-link"
@@ -128,14 +145,13 @@ function Dashboard() {
                         </Link>
                       </li>
                       <li
-                        className={`nav-item list_nav ${
-                          activeNavItem === "interviewResult" ? "active" : ""
-                        }`}
+                        className={`nav-item list_nav ${activeNavItem === "interviewResult" ? "active" : ""
+                          }`}
                       >
                         <Link
                           className="nav-link"
-                          to="logout"
-                          onClick={() => handleItemClick("logout") }
+                          to="/login"
+                          onClick={() => { handleItemClick("logout"), handleSignOut() }}
                         >
                           Log Out
                         </Link>
