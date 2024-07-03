@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
-import { useEffect } from "react";
 
 const token = sessionStorage.getItem("userToken");
 console.log(token);
