@@ -3,6 +3,9 @@ import axios from "axios";
 import addNotification from "react-push-notification";
 import apiURL from "../../configApi";
 
+const token = sessionStorage.getItem("userToken");
+// console.log(token);
+
 const axiosInstance = axios.create({
   baseURL: apiURL,
 });
@@ -10,11 +13,20 @@ const axiosInstance = axios.create({
 export const allocateInterview = createAsyncThunk(
   "interview/allocate",
   async (payload, { rejectWithValue }) => {
-    console.log(payload.id);
-    console.log(payload.studentsId);
+    // console.log(payload.id);
+    // console.log(payload.studentsId);
     try {
-      const res = await axiosInstance.post(`api/interview/allocate-interview/${payload.companyId}`, {studentsId:payload.studentsId});
-      console.log("sing up response:", res);
+      const res = await axiosInstance.post(
+        `api/interview/allocate-interview/${payload.companyId}`,
+        { studentsId: payload.studentsId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log("sing up response:", res);
       return res;
     } catch (error) {
       console.log("Error", error);
@@ -43,8 +55,8 @@ const interviewSlice = createSlice({
         state.message = "";
       })
       .addCase(allocateInterview.fulfilled, (state, action) => {
-        console.log("signUp payload", action.payload);
-        console.log("message", action.payload.data.data.message);
+        // console.log("signUp payload", action.payload);
+        // console.log("message", action.payload.data.data.message);
         state.isLoading = false;
         state.success = action.payload.data.data.status;
         state.message = action.payload.data.data.message;
@@ -58,7 +70,7 @@ const interviewSlice = createSlice({
         return
       })
       .addCase(allocateInterview.rejected, (state, action) => {
-        console.log("rejected payload signup", action.payload);
+        // console.log("rejected payload signup", action.payload);
         state.isLoading = false;
         state.success = action.payload.data.status;
         state.message = action.payload
