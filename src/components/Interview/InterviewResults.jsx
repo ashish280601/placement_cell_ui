@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchInterviewResultSlice } from "../../slice/interviewResultsSlice";
+import * as XLSX from "xlsx";
 
 function InterviewResults() {
   const [getResultData, setGetResultData] = useState([]);

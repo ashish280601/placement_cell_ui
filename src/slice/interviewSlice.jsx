@@ -26,7 +26,7 @@ export const allocateInterview = createAsyncThunk(
           },
         }
       );
-      // console.log("sing up response:", res);
+      console.log("sing up response:", res);
       return res;
     } catch (error) {
       console.log("Error", error);
@@ -56,18 +56,16 @@ const interviewSlice = createSlice({
       })
       .addCase(allocateInterview.fulfilled, (state, action) => {
         // console.log("signUp payload", action.payload);
-        // console.log("message", action.payload.data.data.message);
+        console.log("message", action.payload.data.data.message);
         state.isLoading = false;
         state.success = action.payload.data.data.status;
         state.message = action.payload.data.data.message;
+        console.log(state.message);
         addNotification({
           title: "Success",
-          message: action.payload.data.data.message,
-          theme: "green",
-          duration: 3000,
-          native: true,
-        });
-        return
+          message: state.message,
+          native: true
+        })
       })
       .addCase(allocateInterview.rejected, (state, action) => {
         // console.log("rejected payload signup", action.payload);
@@ -85,7 +83,6 @@ const interviewSlice = createSlice({
           duration: 3000,
           native: true,
         });
-        return
       });
   },
 });

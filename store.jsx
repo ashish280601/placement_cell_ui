@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./src/slice/authSlice";
 import studentSlice from "./src/slice/studentSlice";
 import companySlice from "./src/slice/companySlice";
-import interviewSlice from "./src/slice/interviewSlice";
 import interviewResultsSlice from "./src/slice/interviewResultsSlice";
+import interviewSlice from "./src/slice/interviewSlice";
 
 const store = configureStore({
     reducer:{
@@ -11,7 +11,7 @@ const store = configureStore({
         student: studentSlice,
         company: companySlice,
         interview: interviewSlice,
-        interviewResults: interviewResultsSlice
+        interviewResults: interviewResultsSlice,
     }
 });
 

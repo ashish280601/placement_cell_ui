@@ -62,7 +62,7 @@ export const addInterviewResults = createAsyncThunk(
   );
 
   const interviewResultsSlice = createSlice({
-    name: "interview",
+    name: "interviewResults",
     initialState: {
       isLoading: false,
       success: false,
