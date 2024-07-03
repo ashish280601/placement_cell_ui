@@ -29,7 +29,6 @@ function Dashboard() {
 
     togglefun(); // Close the menu when a menu item is clicked.
   };
-  let [hideShow, sethideShow] = useState("dropdown-menuStop");
   return (
     <>
       <header>
@@ -126,6 +125,19 @@ function Dashboard() {
                           onClick={() => handleItemClick("interviewResult")}
                         >
                           Interview Result
+                        </Link>
+                      </li>
+                      <li
+                        className={`nav-item list_nav ${
+                          activeNavItem === "interviewResult" ? "active" : ""
+                        }`}
+                      >
+                        <Link
+                          className="nav-link"
+                          to="logout"
+                          onClick={() => handleItemClick("logout") }
+                        >
+                          Log Out
                         </Link>
                       </li>
                     </ul>
